@@ -1,13 +1,15 @@
-# react-native-filesystem [![npm version](https://img.shields.io/npm/v/react-native-filesystem.svg?style=flat)](https://www.npmjs.com/package/react-native-filesystem)
-Simple file system access on iOS &amp; Android.
+This is a forked repository of [benwixen's react-native-filesystem](https://github.com/benwixen/react-native-filesystem) with purpose to support React Native Windows.
+
+# react-native-filesystem-v1 [![npm version](https://img.shields.io/npm/v/react-native-filesystem-v1.svg?style=flat)](https://www.npmjs.com/package/react-native-filesystem-v1)
+Simple file system access on iOS &amp; Android &amp; Windows.
 
 All interaction is promise-based, and all content is 
 written and read as UTF-8.
 
 ## Setup
 
-    npm install react-native-filesystem --save
-    react-native link react-native-filesystem
+    npm install react-native-filesystem-v1 --save
+    react-native link react-native-filesystem-v1
     
 This project is based on the [9-project-layout](https://github.com/benwixen/9-project-layout).
 
@@ -18,7 +20,7 @@ For a full list of available methods, see the [API Reference](docs/reference.md)
 ### Write to files
 
 ```javascript
-import FileSystem from 'react-native-filesystem';
+import FileSystem from 'react-native-filesystem-v1';
 
 async function writeToFile() {
   const fileContents = 'This is a my content.';
@@ -83,12 +85,10 @@ For full details, see the [API Reference](docs/reference.md).
 
 ## Questions?
 
-*Why yet another file system library?*
-
+*Why yet another file system library?*   
 I simply couldn't find one that satisfied my basic needs for simplicity.
 
-*Why not use the built-in AsyncStorage?*
-
+*Why not use the built-in AsyncStorage?*   
 [AsyncStorage](https://facebook.github.io/react-native/docs/asyncstorage.html) is fine, but some 
 times you want more control as to where the content is stored. This library lets you put it 
 in backed-up folders, or play nice by marking content that can be deleted when the 

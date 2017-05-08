@@ -1,15 +1,15 @@
 {
-  "name": "react-native-filesystem",
-  "description": "Simple file system API for iOS & Android.",
+  "name": "react-native-filesystem-v1",
+  "description": "Simple file system API for iOS & Android & Windows.",
   "author": "Ben Wixen <benwixen@gmail.com>",
-  "version": "0.1.0",
+  "version": "0.10.0",
   "main": "modules/FileSystem.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/benwixen/react-native-filesystem"
+    "url": "https://github.com/hnq90/react-native-filesystem"
   },
   "keywords": [
     "react",
@@ -19,8 +19,8 @@
     "fs"
   ],
   "peerDependencies": {
-    "react": ">=15.3.1",
-    "react-native": ">=0.34"
+    "react": ">=15.4.1",
+    "react-native": ">=0.43"
   },
   "license": "Apache-2.0",
   "rnpm": {
