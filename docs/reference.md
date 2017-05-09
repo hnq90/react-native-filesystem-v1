@@ -3,10 +3,10 @@
 There is only one module, FileSystem, that can be imported like this:
 
 ```javascript
-import FileSystem from 'react-native-filesystem';
+import FileSystem from 'react-native-filesystem-v1';
 ```
 
-This module works on iOS 8.0+ and Android Ice Cream Sandwich and newer (4.1.x / API-level 16).
+This module works on iOS 8.0+ and Android Ice Cream Sandwich and newer (4.1.x / API-level 16) & UWP 1.2.
 
 ## FileSystem
 

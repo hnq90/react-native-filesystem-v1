@@ -1,5 +1,5 @@
 rootProject.name = 'RNFileSystemTests'
 
 include ':app'
-include ':react-native-filesystem'
-project(':react-native-filesystem').projectDir = new File(rootProject.projectDir, '../../android')
+include ':react-native-filesystem-v1'
+project(':react-native-filesystem-v1').projectDir = new File(rootProject.projectDir, '../../android')

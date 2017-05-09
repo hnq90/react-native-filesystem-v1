@@ -2,7 +2,7 @@
   "name": "react-native-filesystem-v1",
   "description": "Simple file system API for iOS & Android & Windows.",
   "author": "Ben Wixen <benwixen@gmail.com>",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "main": "modules/FileSystem.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
