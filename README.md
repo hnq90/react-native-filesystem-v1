@@ -23,8 +23,9 @@ For a full list of available methods, see the [API Reference](docs/reference.md)
 import FileSystem from 'react-native-filesystem-v1';
 
 async function writeToFile() {
+  const isAppend = true; // If this variable is set to true, content will be appended to the file.
   const fileContents = 'This is a my content.';
-  await FileSystem.writeToFile('my-directory/my-file.txt', fileContents);
+  await FileSystem.writeToFile('my-directory/my-file.txt', fileContents, isAppend);
   console.log('file is written');
 }
 ```
@@ -68,7 +69,7 @@ These classes roughly correspond to the four points of the
 and have similar behaviour on Android. Example usage:
 
 ```javascript
-FileSystem.writeToFile('my-file.txt', 'My content', FileSystem.storage.important);
+FileSystem.writeToFile('my-file.txt', 'My content', false, FileSystem.storage.important);
 ```
 
 Files need to be read from the same storage class they're saved to, and two files can have the same 

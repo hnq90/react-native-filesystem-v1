@@ -10,7 +10,7 @@ This module works on iOS 8.0+ and Android Ice Cream Sandwich and newer (4.1.x / 
 
 ## FileSystem
 
-static **writeToFile** (path: `string`, content: `string`, storage: `string?`): `Promise`
+static **writeToFile** (path: `string`, content: `string`, isAppend: `bool`, storage: `string?`): `Promise`
 
 Asynchronously writes the content to a file, and resolves the promise upon completion.
 Intermediary directories in the path are created automatically.
