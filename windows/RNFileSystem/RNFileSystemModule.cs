@@ -89,7 +89,7 @@ namespace RNFileSystem
             return result;
         }
 
-        private async Task writeFile(string relativePath, string content, Storage storage)
+        private async Task writeFile(string relativePath, string content, Storage storage, bool isAppend = false)
         {
             string baseDir = baseDirForStorage(storage);
 
@@ -108,8 +108,17 @@ namespace RNFileSystem
                     folders += "/";
                     folder = await createDirectories(folders);
                 }
-                file = await folder.CreateFileAsync(path["fileName"], CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(file, content);
+                file = await folder.CreateFileAsync(path["fileName"], isAppend ? CreationCollisionOption.OpenIfExists : CreationCollisionOption.ReplaceExisting);
+
+                if (isAppend)
+                {
+                    await FileIO.AppendTextAsync(file, content);
+                }
+                else
+                {
+                    await FileIO.WriteTextAsync(file, content);
+                }
+                
             }
             catch (Exception e)
             {
@@ -182,7 +191,7 @@ namespace RNFileSystem
         }
 
         [ReactMethod]
-        public async void writeToFile(string relativePath, string content, string storage, IPromise promise)
+        public async void writeToFile(string relativePath, string content, string storage, bool isAppend, IPromise promise)
         {
             if (relativePath == null)
             {
@@ -192,7 +201,7 @@ namespace RNFileSystem
 
             try
             {
-                await writeFile(relativePath, content, (Storage)Enum.Parse(typeof(Storage), storage));
+                await writeFile(relativePath, content, (Storage)Enum.Parse(typeof(Storage), storage), isAppend);
                 promise.Resolve(true);
             }
             catch (Exception ex)
