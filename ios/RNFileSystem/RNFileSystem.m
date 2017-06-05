@@ -42,15 +42,19 @@ NSString *const STORAGE_TEMPORARY = @"TEMPORARY";
   
 }
 
-+ (void)writeToFile:(NSString*)relativePath content:(NSString*)content inStorage:(NSString*)storage {
-  NSURL *baseDir = [RNFileSystem baseDirForStorage:storage];
-  NSURL *fullPath = [baseDir URLByAppendingPathComponent:relativePath];
-  [RNFileSystem createDirectoriesIfNeeded:fullPath];
-
-  [content writeToFile:[fullPath path] atomically:YES encoding:NSUTF8StringEncoding error:nil];
-  if ([storage isEqual:STORAGE_IMPORTANT]) {
-    [RNFileSystem addSkipBackupAttributeToItemAtPath:[fullPath path]];
-  }
++ (void)writeToFile:(NSString*)relativePath content:(NSString*)content inStorage:(NSString*)storage isAppend:(BOOL)isAppend {
+    NSURL *baseDir = [RNFileSystem baseDirForStorage:storage];
+    NSURL *fullPath = [baseDir URLByAppendingPathComponent:relativePath];
+    [RNFileSystem createDirectoriesIfNeeded:fullPath];
+    NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:[fullPath path]];
+    if (isAppend) {
+        [fileHandle seekToEndOfFile];
+    }
+    [fileHandle writeData:[content dataUsingEncoding:NSUTF8StringEncoding]];
+    [fileHandle closeFile];
+    if ([storage isEqual:STORAGE_IMPORTANT]) {
+        [RNFileSystem addSkipBackupAttributeToItemAtPath:[fullPath path]];
+    }
 }
 
 + (NSString*)readFile:(NSString*)relativePath inStorage:(NSString*)storage error:(NSError**)error {
