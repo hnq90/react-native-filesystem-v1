@@ -42,7 +42,7 @@ NSString *const STORAGE_TEMPORARY = @"TEMPORARY";
   
 }
 
-+ (void)writeToFile:(NSString*)relativePath content:(NSString*)content inStorage:(NSString*)storage isAppend:(BOOL)isAppend {
++ (void)writeToFile:(NSString*)relativePath content:(NSString*)content isAppend:(BOOL)isAppend inStorage:(NSString*)storage {
     NSURL *baseDir = [RNFileSystem baseDirForStorage:storage];
     NSURL *fullPath = [baseDir URLByAppendingPathComponent:relativePath];
     [RNFileSystem createDirectoriesIfNeeded:fullPath];
