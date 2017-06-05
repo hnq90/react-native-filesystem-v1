@@ -8,7 +8,7 @@ extern NSString *const STORAGE_TEMPORARY;
 
 @interface RNFileSystem : NSObject <RCTBridgeModule>
 
-+ (void)writeToFile:(NSString*)relativePath content:(NSString*)content inStorage:(NSString*)storage;
++ (void)writeToFile:(NSString*)relativePath content:(NSString*)content inStorage:(NSString*)storage isAppend:(BOOL)isAppend;
 + (NSString*)readFile:(NSString*)relativePath inStorage:(NSString*)storage error:(NSError**)error;
 + (BOOL)fileExists:(NSString*)relativePath inStorage:(NSString*)storage;
 + (BOOL)directoryExists:(NSString*)relativePath inStorage:(NSString*)storage;
