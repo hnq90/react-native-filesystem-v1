@@ -39,7 +39,6 @@ NSString *const STORAGE_TEMPORARY = @"TEMPORARY";
   NSFileManager *fileManager = [NSFileManager defaultManager];
   NSString *directory = [[path URLByDeletingLastPathComponent] path];
   [fileManager createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
-  
 }
 
 + (void)writeToFile:(NSString*)relativePath content:(NSString*)content isAppend:(BOOL)isAppend inStorage:(NSString*)storage {
@@ -105,7 +104,7 @@ NSString *const STORAGE_TEMPORARY = @"TEMPORARY";
 {
   NSURL* URL= [NSURL fileURLWithPath: filePathString];
   assert([[NSFileManager defaultManager] fileExistsAtPath: [URL path]]);
-  
+
   NSError *error = nil;
   BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
                                 forKey: NSURLIsExcludedFromBackupKey error: &error];
@@ -135,11 +134,10 @@ NSString *const STORAGE_TEMPORARY = @"TEMPORARY";
 
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(writeToFile:(NSString*)relativePath content:(NSString*)content inStorage:(NSString*)storage resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-  [RNFileSystem writeToFile:relativePath content:content inStorage:storage];
+RCT_EXPORT_METHOD(writeToFile:(NSString*)relativePath content:(NSString*)content isAppend:(BOOL)isAppend inStorage:(NSString*)storage resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  [RNFileSystem writeToFile:relativePath content:content isAppend:(BOOL)isAppend inStorage:storage];
   resolve([NSNumber numberWithBool:YES]);
 }
-
 
 RCT_EXPORT_METHOD(readFile:(NSString*)relativePath inStorage:(NSString*)storage resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   NSError *error;
