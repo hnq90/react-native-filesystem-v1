@@ -12,8 +12,8 @@ export default class FileSystem {
     temporary: 'TEMPORARY',
   };
 
-  static async writeToFile(path, contents, storage = FileSystem.storage.backedUp) {
-    return await RNFileSystem.writeToFile(path, contents, storage);
+  static async writeToFile(path, contents, isAppend = false, storage = FileSystem.storage.backedUp) {
+    return await RNFileSystem.writeToFile(path, contents, isAppend, storage);
   }
 
   static async readFile(path, storage = FileSystem.storage.backedUp) {
