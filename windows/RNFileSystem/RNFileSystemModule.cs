@@ -89,7 +89,7 @@ namespace RNFileSystem
             return result;
         }
 
-        private async Task writeFile(string relativePath, string content, bool isAppend = false, Storage storage)
+        private async Task writeFile(string relativePath, string content, bool isAppend, Storage storage)
         {
             string baseDir = baseDirForStorage(storage);
 
@@ -118,7 +118,6 @@ namespace RNFileSystem
                 {
                     await FileIO.WriteTextAsync(file, content);
                 }
-                
             }
             catch (Exception e)
             {
