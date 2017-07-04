@@ -65,14 +65,14 @@ public class RNFileSystem extends ReactContextBaseJavaModule {
     holdingFolder.mkdirs();
   }
 
-  public void writeToFile(String relativePath, String content, Storage storage) throws IOException {
+  public void writeToFile(String relativePath, String content, boolean isAppend, Storage storage) throws IOException {
     String baseDir = baseDirForStorage(storage);
     File destination = new File(baseDir + "/" + relativePath);
     createDirectories(destination);
 
     OutputStreamWriter output = null;
     try {
-      output = new OutputStreamWriter(new FileOutputStream(destination));
+      output = new OutputStreamWriter(new FileOutputStream(destination, isAppend));
       output.write(content);
     } finally {
       try {
@@ -127,9 +127,9 @@ public class RNFileSystem extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void writeToFile(String relativePath, String content, String storage, Promise promise) {
+  public void writeToFile(String relativePath, String content, boolean isAppend, String storage, Promise promise) {
     try {
-      writeToFile(relativePath, content, Storage.valueOf(storage));
+      writeToFile(relativePath, content, isAppend, Storage.valueOf(storage));
       promise.resolve(true);
     } catch (IOException e) {
       promise.reject("ERROR", e.getMessage());
