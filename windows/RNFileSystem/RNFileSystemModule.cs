@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -89,7 +89,7 @@ namespace RNFileSystem
             return result;
         }
 
-        private async Task writeFile(string relativePath, string content, Storage storage, bool isAppend = false)
+        private async Task writeFile(string relativePath, string content, bool isAppend, Storage storage)
         {
             string baseDir = baseDirForStorage(storage);
 
@@ -118,7 +118,6 @@ namespace RNFileSystem
                 {
                     await FileIO.WriteTextAsync(file, content);
                 }
-                
             }
             catch (Exception e)
             {
@@ -191,7 +190,7 @@ namespace RNFileSystem
         }
 
         [ReactMethod]
-        public async void writeToFile(string relativePath, string content, string storage, bool isAppend, IPromise promise)
+        public async void writeToFile(string relativePath, string content, bool isAppend, string storage, IPromise promise)
         {
             if (relativePath == null)
             {
@@ -201,7 +200,7 @@ namespace RNFileSystem
 
             try
             {
-                await writeFile(relativePath, content, (Storage)Enum.Parse(typeof(Storage), storage), isAppend);
+                await writeFile(relativePath, content, isAppend, (Storage)Enum.Parse(typeof(Storage), storage));
                 promise.Resolve(true);
             }
             catch (Exception ex)

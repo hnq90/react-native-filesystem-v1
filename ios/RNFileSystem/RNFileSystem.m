@@ -39,15 +39,26 @@ NSString *const STORAGE_TEMPORARY = @"TEMPORARY";
   NSFileManager *fileManager = [NSFileManager defaultManager];
   NSString *directory = [[path URLByDeletingLastPathComponent] path];
   [fileManager createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
-  
 }
 
-+ (void)writeToFile:(NSString*)relativePath content:(NSString*)content inStorage:(NSString*)storage {
++ (void)writeToFile:(NSString*)relativePath content:(NSString*)content isAppend:(BOOL)isAppend inStorage:(NSString*)storage {
   NSURL *baseDir = [RNFileSystem baseDirForStorage:storage];
   NSURL *fullPath = [baseDir URLByAppendingPathComponent:relativePath];
   [RNFileSystem createDirectoriesIfNeeded:fullPath];
-
-  [content writeToFile:[fullPath path] atomically:YES encoding:NSUTF8StringEncoding error:nil];
+  if ([RNFileSystem fileExists:relativePath inStorage:storage]) {
+    NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:[fullPath path]];
+    if (isAppend) {
+      [fileHandle seekToEndOfFile];
+    } else {
+      [[NSFileManager defaultManager] removeItemAtPath:[fullPath path] error:nil];
+      [[NSFileManager defaultManager] createFileAtPath:[fullPath path] contents:nil attributes:nil];
+      fileHandle = [NSFileHandle fileHandleForWritingAtPath:[fullPath path]];
+    }
+    [fileHandle writeData:[content dataUsingEncoding:NSUTF8StringEncoding]];
+    [fileHandle closeFile];
+  } else {
+    [content writeToFile:[fullPath path] atomically:YES encoding:NSUTF8StringEncoding error:nil];
+  }
   if ([storage isEqual:STORAGE_IMPORTANT]) {
     [RNFileSystem addSkipBackupAttributeToItemAtPath:[fullPath path]];
   }
@@ -97,15 +108,14 @@ NSString *const STORAGE_TEMPORARY = @"TEMPORARY";
   return YES;
 }
 
-+ (BOOL)addSkipBackupAttributeToItemAtPath:(NSString *) filePathString
-{
++ (BOOL)addSkipBackupAttributeToItemAtPath:(NSString *) filePathString {
   NSURL* URL= [NSURL fileURLWithPath: filePathString];
   assert([[NSFileManager defaultManager] fileExistsAtPath: [URL path]]);
-  
+
   NSError *error = nil;
   BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
                                 forKey: NSURLIsExcludedFromBackupKey error: &error];
-  if(!success){
+  if (!success) {
     NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
   }
   return success;
@@ -131,11 +141,10 @@ NSString *const STORAGE_TEMPORARY = @"TEMPORARY";
 
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(writeToFile:(NSString*)relativePath content:(NSString*)content inStorage:(NSString*)storage resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-  [RNFileSystem writeToFile:relativePath content:content inStorage:storage];
+RCT_EXPORT_METHOD(writeToFile:(NSString*)relativePath content:(NSString*)content isAppend:(BOOL)isAppend inStorage:(NSString*)storage resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  [RNFileSystem writeToFile:relativePath content:content isAppend:(BOOL)isAppend inStorage:storage];
   resolve([NSNumber numberWithBool:YES]);
 }
-
 
 RCT_EXPORT_METHOD(readFile:(NSString*)relativePath inStorage:(NSString*)storage resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   NSError *error;
