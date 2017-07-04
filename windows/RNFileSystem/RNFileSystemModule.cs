@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ReactNative.Bridge;
 using Windows.Storage;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace RNFileSystem
 {
@@ -248,6 +249,10 @@ namespace RNFileSystem
                 {
                     promise.Resolve(false);
                 }
+            }
+            catch (FileNotFoundException e)
+            {
+                promise.Resolve(false);
             }
             catch (Exception e)
             {
