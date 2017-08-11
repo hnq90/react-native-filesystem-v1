@@ -132,7 +132,7 @@ namespace RNFileSystem
             return rootFolder + "\\" + Regex.Replace(relativePath, "/", "\\");
         }
 
-        private async Task<string> readFile(string relativePath, Storage storage)
+        private async Task<string> readFromFile(string relativePath, Storage storage)
         {
             string baseDir = baseDirForStorage(storage);
 
@@ -211,7 +211,7 @@ namespace RNFileSystem
         }
 
         [ReactMethod]
-        public async void readToFile(string relativePath, string storage, IPromise promise)
+        public async void readFile(string relativePath, string storage, IPromise promise)
         {
             if (relativePath == null)
             {
@@ -221,7 +221,7 @@ namespace RNFileSystem
 
             try
             {
-                string content = await readFile(relativePath, (Storage)Enum.Parse(typeof(Storage), storage));
+                string content = await readFromFile(relativePath, (Storage)Enum.Parse(typeof(Storage), storage));
                 promise.Resolve(content);
             }
             catch (Exception ex)
