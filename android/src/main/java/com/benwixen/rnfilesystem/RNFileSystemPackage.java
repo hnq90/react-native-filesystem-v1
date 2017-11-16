@@ -15,7 +15,7 @@ public class RNFileSystemPackage implements ReactPackage {
     return Collections.<NativeModule>singletonList(new RNFileSystem(reactContext));
   }
 
-  @Override
+  // deprecated >= RN 0.47.0
   public List<Class<? extends JavaScriptModule>> createJSModules() {
     return Collections.emptyList();
   }
