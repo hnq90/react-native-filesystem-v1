@@ -91,7 +91,12 @@ public class RNFileSystem extends ReactContextBaseJavaModule {
       throw new FileNotFoundException();
     }
 
-    return new Scanner(location).useDelimiter("\\Z").next();
+    Scanner scanner = new Scanner(location).useDelimiter("\\Z");
+    String content = "";
+    while (scanner.hasNext()) {
+      content += scanner.next();
+    }
+    return content;
   }
 
   public boolean fileExists(String relativePath, Storage storage) {
